@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Tenniz.DesktopGL/Tenniz.DesktopGL.csproj" />
+  <Project Path="Tenniz/Tenniz.csproj" />
+</Solution>
