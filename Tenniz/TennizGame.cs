@@ -24,7 +24,6 @@ public class TennizGame : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
         base.Initialize();
     }
 
@@ -34,8 +33,6 @@ public class TennizGame : Game
         InputHelper.Setup(this);
 
         SwitchScreen(new MenuScreen());
-
-
     }
 
     protected override void Update(GameTime gameTime)
