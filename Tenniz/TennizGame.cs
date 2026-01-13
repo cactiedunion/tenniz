@@ -24,8 +24,6 @@ public class TennizGame : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
         base.Initialize();
     }
 
@@ -34,8 +32,7 @@ public class TennizGame : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         InputHelper.Setup(this);
 
-        LoadedScreen = new GameplayScreen();
-        LoadedScreen.LoadContent(GraphicsDevice);
+        SwitchScreen(new MenuScreen());
     }
 
     protected override void Update(GameTime gameTime)
@@ -53,5 +50,12 @@ public class TennizGame : Game
         LoadedScreen.Draw(_spriteBatch);
 
         base.Draw(gameTime);
+    }
+
+    public void SwitchScreen(Screen screen)
+    {
+        LoadedScreen = screen;
+        LoadedScreen.Game = this;
+        LoadedScreen.LoadContent(GraphicsDevice);
     }
 }
