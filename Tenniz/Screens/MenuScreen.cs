@@ -11,6 +11,7 @@ public class MenuScreen : Screen
     {
         
     }
+    
     public override void Update(GameTime gameTime)
     {
         if (InputHelper.NewKeyboard.IsKeyDown(Keys.Space))
@@ -18,9 +19,9 @@ public class MenuScreen : Screen
             Game.SwitchScreen(new GameplayScreen());
         }
     }
+    
     public override void Draw(SpriteBatch spritebatch)
     {
         
     }
-    
 }
