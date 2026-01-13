@@ -18,6 +18,8 @@ public class TennizGame : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        Window.AllowUserResizing = true;
     }
 
     protected override void Initialize()
@@ -48,12 +50,8 @@ public class TennizGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: Matrix.CreateScale(4, 4, 1));
-
         LoadedScreen.Draw(_spriteBatch);
 
-        _spriteBatch.End();
         base.Draw(gameTime);
     }
 }
