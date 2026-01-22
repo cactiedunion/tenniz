@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Tenniz.Graphics;
 using Tenniz.Screens;
 
 namespace Tenniz;
@@ -31,6 +32,8 @@ public class TennizGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         InputHelper.Setup(this);
+
+        TextureAtlas.LoadFromFolder(GraphicsDevice, "Assets");
 
         SwitchScreen(new MenuScreen());
     }
