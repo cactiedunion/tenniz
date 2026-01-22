@@ -12,5 +12,5 @@ public abstract class Screen
 
     public virtual void Update(GameTime gameTime) { }
 
-    public virtual void Draw(SpriteBatch spritebatch) { }
+    public virtual void Draw(SpriteBatch spritebatch, GameTime gameTime) { }
 }
