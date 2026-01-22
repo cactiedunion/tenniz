@@ -38,16 +38,15 @@ public class TennizGame : Game
     protected override void Update(GameTime gameTime)
     {
         InputHelper.UpdateSetup();
-
         LoadedScreen.Update(gameTime);
-
         InputHelper.UpdateCleanup();
+
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        LoadedScreen.Draw(_spriteBatch);
+        LoadedScreen.Draw(_spriteBatch, gameTime);
 
         base.Draw(gameTime);
     }

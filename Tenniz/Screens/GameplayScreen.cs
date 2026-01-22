@@ -71,7 +71,7 @@ public class GameplayScreen : Screen
         player.Position.Y = Math.Clamp(player.Position.Y, minY, maxY);
     }
 
-    public override void Draw(SpriteBatch spritebatch)
+    public override void Draw(SpriteBatch spritebatch, GameTime gameTime)
     {
         var gd = spritebatch.GraphicsDevice;
 
