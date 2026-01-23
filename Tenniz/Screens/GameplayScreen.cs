@@ -8,6 +8,8 @@ public class GameplayScreen : Screen
 {
     public Player Player1;
     public Player Player2;
+    public Ball Ball;
+
     public Rectangle PlayArea = new Rectangle(0, 0, 256, 128);
 
     public Texture2D GroundTexture;
@@ -45,6 +47,10 @@ public class GameplayScreen : Screen
         Player2 = new Player(PlayerIndex.Two);
         Player2.LoadContent(graphicsDevice);
         Player2.Position = new Vector2(PlayArea.Width / 2 + PlayArea.Width / 4, PlayArea.Y / 2);
+
+        Ball = new Ball();
+        Ball.Load(graphicsDevice);
+        Ball.Position = Player1.Position + new Vector2(10, 60);
     }
 
     public override void Update(GameTime gameTime)
@@ -63,6 +69,9 @@ public class GameplayScreen : Screen
 
         ConstrainPlayer(Player1, left, netLeft, top, bottom);
         ConstrainPlayer(Player2, netRight - 16, right - 16, top, bottom);
+
+
+        Ball.Update(gameTime);
     }
 
     private void ConstrainPlayer(Player player, int minX, int maxX, int minY, int maxY)
@@ -89,6 +98,8 @@ public class GameplayScreen : Screen
         Player1.Draw(spritebatch);
         Player2.Draw(spritebatch);
         DrawNet(spritebatch);
+
+        Ball.Draw(spritebatch);
 
         spritebatch.End();
 
