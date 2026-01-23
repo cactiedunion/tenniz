@@ -11,9 +11,12 @@ public class GameplayScreen : Screen
     public Ball Ball;
 
     public Rectangle PlayArea = new Rectangle(0, 0, 256, 128);
+    public Collider PlayAreaCollider;
 
     public Texture2D GroundTexture;
+
     public Texture2D NetTexture;
+    public Collider NetCollider;
 
     public Rectangle NetTopSourceRectangle;
     public Rectangle NetMiddleSourceRectangle;
@@ -25,6 +28,10 @@ public class GameplayScreen : Screen
     public override void LoadContent(GraphicsDevice graphicsDevice)
     {
         GroundTexture = Texture2D.FromFile(graphicsDevice, "Assets/ground.png");
+
+        PlayAreaCollider = new Collider(new Vector2(PlayArea.X, PlayArea.Y), new Vector2(PlayArea.Width, PlayArea.Height));
+
+        NetCollider = new Collider(new Vector2(PlayArea.Width / 2f - NetTopSourceRectangle.Width / 2f, 0), new Vector2(NetTopSourceRectangle.Width, PlayArea.Height));
 
         NetTexture = Texture2D.FromFile(graphicsDevice, "Assets/net.png");
         NetTopSourceRectangle = new Rectangle(0, 0, 16, 16);
@@ -40,17 +47,17 @@ public class GameplayScreen : Screen
             DepthFormat.None
         );
 
-        Player1 = new Player(PlayerIndex.One);
+        Ball = new Ball();
+        Ball.LoadContent(graphicsDevice);
+        Ball.Position = new Vector2(PlayArea.Width / 2 - PlayArea.Width / 4, PlayArea.Y / 2 + 50);
+
+        Player1 = new Player(PlayerIndex.One, Ball);
         Player1.Position = new Vector2(PlayArea.Width / 2 - PlayArea.Width / 4, PlayArea.Y / 2);
         Player1.LoadContent(graphicsDevice);
 
-        Player2 = new Player(PlayerIndex.Two);
+        Player2 = new Player(PlayerIndex.Two, Ball);
         Player2.LoadContent(graphicsDevice);
         Player2.Position = new Vector2(PlayArea.Width / 2 + PlayArea.Width / 4, PlayArea.Y / 2);
-
-        Ball = new Ball();
-        Ball.Load(graphicsDevice);
-        Ball.Position = Player1.Position + new Vector2(10, 60);
     }
 
     public override void Update(GameTime gameTime)
@@ -70,8 +77,30 @@ public class GameplayScreen : Screen
         ConstrainPlayer(Player1, left, netLeft, top, bottom);
         ConstrainPlayer(Player2, netRight - 16, right - 16, top, bottom);
 
-
         Ball.Update(gameTime);
+
+        if (!Ball.ShadowCollider.Intersects(PlayAreaCollider))
+        {
+            Loose();
+        }
+
+        DeflectBallFromNet();
+    }
+
+    public void DeflectBallFromNet()
+    {
+        if (Ball.BallCollider.Intersects(NetCollider))
+        {
+            if(Ball.Height > -15)
+            {
+                Loose();
+            }
+        }
+    }
+
+    public void Loose()
+    {
+        Game.SwitchScreen(new MenuScreen());
     }
 
     private void ConstrainPlayer(Player player, int minX, int maxX, int minY, int maxY)
@@ -100,6 +129,8 @@ public class GameplayScreen : Screen
         DrawNet(spritebatch);
 
         Ball.Draw(spritebatch);
+
+        NetCollider.DebugDraw(spritebatch);
 
         spritebatch.End();
 

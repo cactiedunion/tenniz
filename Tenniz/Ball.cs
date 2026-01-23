@@ -10,6 +10,10 @@ public class Ball
     public Vector2 Position;
 
     public Vector2 Velocity;
+
+    public Collider ShadowCollider;
+    public Collider BallCollider;
+
     public float DeAcceleration = 1.5f;
 
     public float HeightVelocity;
@@ -36,9 +40,12 @@ public class Ball
 
     public Texture2D Texture;
 
-    public void Load(GraphicsDevice graphicsDevice)
+    public void LoadContent(GraphicsDevice graphicsDevice)
     {
         Texture = Texture2D.FromFile(graphicsDevice, "Assets/ball.png");
+
+        ShadowCollider = new Collider(Position, new Vector2(Texture.Width, Texture.Height));
+        BallCollider = new Collider(Position + new Vector2(0, Height), new Vector2(Texture.Width, Texture.Height));
     }
 
     public void Update(GameTime gameTime)
@@ -85,6 +92,9 @@ public class Ball
         HeightVelocity += Gravity * dt;
 
         Height += HeightVelocity * dt;
+
+        ShadowCollider.Position = Position;
+        BallCollider.Position = Position + new Vector2(0, Height);
     }
 
     public void OnGround()
@@ -98,7 +108,9 @@ public class Ball
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Texture, Position, Color.DarkGray);
+        spriteBatch.Draw(Texture, Position, Color.DarkGray * 0.5f);
         spriteBatch.Draw(Texture, Position + new Vector2(0, Height), Color.White);
+        ShadowCollider.DebugDraw(spriteBatch);
+        BallCollider.DebugDraw(spriteBatch);
     }
 }
