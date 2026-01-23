@@ -43,6 +43,7 @@ public class Ball
 
     public void Update(GameTime gameTime)
     {
+        /*
         if (InputHelper.NewKeyboard.IsKeyDown(Keys.Up))
         {
             Velocity.Y -= 0.1f;
@@ -68,6 +69,7 @@ public class Ball
         {
             HeightVelocity -= 5;
         }
+        */
 
         float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
