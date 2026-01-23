@@ -14,7 +14,9 @@ public class GameplayScreen : Screen
     public Collider PlayAreaCollider;
 
     public Texture2D GroundTexture;
+
     public Texture2D NetTexture;
+    public Collider NetCollider;
 
     public Rectangle NetTopSourceRectangle;
     public Rectangle NetMiddleSourceRectangle;
@@ -28,6 +30,8 @@ public class GameplayScreen : Screen
         GroundTexture = Texture2D.FromFile(graphicsDevice, "Assets/ground.png");
 
         PlayAreaCollider = new Collider(new Vector2(PlayArea.X, PlayArea.Y), new Vector2(PlayArea.Width, PlayArea.Height));
+
+        NetCollider = new Collider(new Vector2(PlayArea.Width / 2f - NetTopSourceRectangle.Width / 2f, 0), new Vector2(NetTopSourceRectangle.Width, PlayArea.Height));
 
         NetTexture = Texture2D.FromFile(graphicsDevice, "Assets/net.png");
         NetTopSourceRectangle = new Rectangle(0, 0, 16, 16);
@@ -77,8 +81,26 @@ public class GameplayScreen : Screen
 
         if (!Ball.ShadowCollider.Intersects(PlayAreaCollider))
         {
-            Game.SwitchScreen(new MenuScreen());
+            Loose();
         }
+
+        DeflectBallFromNet();
+    }
+
+    public void DeflectBallFromNet()
+    {
+        if (Ball.BallCollider.Intersects(NetCollider))
+        {
+            if(Ball.Height > -15)
+            {
+                Loose();
+            }
+        }
+    }
+
+    public void Loose()
+    {
+        Game.SwitchScreen(new MenuScreen());
     }
 
     private void ConstrainPlayer(Player player, int minX, int maxX, int minY, int maxY)
@@ -107,6 +129,8 @@ public class GameplayScreen : Screen
         DrawNet(spritebatch);
 
         Ball.Draw(spritebatch);
+
+        NetCollider.DebugDraw(spritebatch);
 
         spritebatch.End();
 

@@ -132,7 +132,7 @@ public class Player
             {
                 ball.HeightVelocity = -100;
 
-                float powerX = 2;
+                float powerX = 3;
 
                 if(PlayerIndex == PlayerIndex.Two)
                 {
